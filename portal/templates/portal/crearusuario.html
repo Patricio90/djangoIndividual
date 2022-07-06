@@ -1,0 +1,8 @@
+{% extends "portal/base.html" %}
+{% block content %}
+<form method = "POST" action = "/crearusuario">
+	{% csrf_token %}
+	{{ form.as_p }}
+    <button>Crear</button>
+</form>
+{% endblock%}

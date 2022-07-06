@@ -1,0 +1,17 @@
+{% extends "portal/base.html" %}
+{% block content %}
+<h1>PUBLICACIONES DE OFERTAS.</h1>
+
+{% for i in publicacion %}
+<h1>{{ i.titulo}}</h1>
+<p>publicado por:{{i.autor}} el dia {{i.fecha_publicacion}}/p>
+<p>{{i.contenido}}</p>
+{% endfor %}
+{% endblock %}
+
+
+
+
+
+
+

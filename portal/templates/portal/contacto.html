@@ -1,0 +1,14 @@
+{% extends "portal/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <p>Si tienes alguna duda, inquietud o necesitas ayuda, dejanos tus datos y tu mensaje:</p>
+</div>
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        {{form | crispy}}
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+{% endblock content %}

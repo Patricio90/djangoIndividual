@@ -1,17 +1,16 @@
-{% extends "portal/base.html" %}
-{% block content %}
-<h1>PUBLICACIONES DE OFERTAS.</h1>
-
-{% for i in publicacion %}
-<h1>{{ i.titulo}}</h1>
-<p>publicado por:{{i.autor}} el dia {{i.fecha_publicacion}}/p>
-<p>{{i.contenido}}</p>
-{% endfor %}
-{% endblock %}
-
-
-
-
-
-
-
+{% extends "portal/base.html" %} 
+{% block content %} 
+{% for i in posts %}
+    <article class="media content-section">
+    <div class="media-body">
+        <img src="{{i.ofertado_por.perfil.image.url}}" class = "rounded-circle account-img"alt="">
+        <div class="article-metadata">
+        <a class="mr-2" href="#">{{ i.ofertado_por }}</a>
+        <small class="text-muted">{{ i.fecha_publicacion }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'publicacion-detalle' i.id%}">{{ i.producto }}</a></h2>
+        <p class="article-content">{{ i.descripcion }}</p>
+    </div>
+    </article>
+{% endfor %} 
+{% endblock content%}

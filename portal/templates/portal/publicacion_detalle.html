@@ -1,0 +1,13 @@
+{% extends "portal/base.html" %} 
+{% block content %} 
+    <article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+        <a class="mr-2" href="#">{{ object.ofertado_por }}</a>
+        <small class="text-muted">{{ object.fecha_publicacion }}</small>
+        </div>
+        <h2><a class="article-title" href="#">{{ object.producto }}</a></h2>
+        <p class="article-content">{{ object.descripcion }}</p>
+    </div>
+    </article>
+{% endblock content%}

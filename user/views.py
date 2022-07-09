@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegistrationForm
+from django.contrib.auth.decorators import login_required
 
 def registro(request):
     if request.method =='POST':
@@ -12,3 +13,7 @@ def registro(request):
     form = UserRegistrationForm()
     return render(request, 'user/register.html',{'form':form })
 # Create your views here.
+
+@login_required
+def perfil(request):
+    return render(request,'user/perfil.html')

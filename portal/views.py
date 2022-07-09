@@ -1,45 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
 from portal.forms import ContactForm
-from . models import Cliente
+from .models import Cliente
+from .models import Publicacion
 from .forms import ReclamoForm, UsuariosForm
-
-publicacion = [
-          {
-              'autor':'Felipe',
-              'Titulo':'Venta',
-              'Contenido':'Hola, vendo articulo en buen estado',
-              'Fecha publicacion':'14-04-22'
-          },
-          {
-              'autor':'Andrea',
-              'Titulo':'Permuto',
-              'Contenido':'Hola, vendo articulo en buen estado',
-              'Fecha publicacion':'22-05-22'
-          },
-          {
-              'autor':'Pedro',
-              'Titulo':'Venta',
-              'Contenido':'Hola, vendo articulo en buen estado',
-              'Fecha publicacion':'05-03-22'
-          }
-]
-
-def publicar(request):
-    contexto ={
-        'publicacion': publicacion
-    }
-    return render(request, 'portal/publicar.html', contexto)
+from django.views.generic.detail import DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 def home(request):
     return render(request, 'portal/home.html')
 
+def publicar(request):
+    contexto = {
+        'posts' : Publicacion.objects.all()
+    }
+    return render(request,'portal/publicar.html', contexto)
+
 def about(request):
     return render(request, 'portal/about.html')
-
-# def contacto(request):
-#     return render(request,'portal/contacto.html')
 
 def clientes(request):
     cliente= Cliente.objects.all()
@@ -88,3 +67,37 @@ def crearUsuario(request):
     return render(request,'portal/crearusuario.html',{"form":form})
 
 # Create your views here.
+
+#vistas
+
+class PublicacionDetalle(DetailView):
+    model = Publicacion
+    template_name ='portal/publicacion_detalle.html'
+
+class PublicacionCrear(LoginRequiredMixin, CreateView):
+    model = Publicacion
+    fields=['fecha_publicacion','producto','descripcion','ofertar','ofertado_por']
+
+    def form_valid(self, form):
+        form.instance.ofertado_por = self.request.user
+        return super().form_valid(form)
+
+class PublicacionActualizar(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Publicacion
+    fields=['fecha_publicacion','producto','descripcion','ofertar','ofertado_por']
+
+    def test_func(self):
+        publicacion  = self.get_object()
+        if self.request.user == publicacion.ofertado_por:
+            return True
+        return False
+
+class PublicacionEliminar(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Publicacion
+    template_name ='portal/publicacion_eliminar.html'
+    success_url = 'about/'
+    def test_func(self):
+        publicacion  = self.get_object()
+        if self.request.user == publicacion.ofertado_por:
+            return True
+        return False

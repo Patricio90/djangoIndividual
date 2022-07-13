@@ -1,7 +1,6 @@
 from unicodedata import name
 from django.urls import path
 from .import views
-from .views import PublicacionDetalle, PublicacionCrear, PublicacionActualizar, PublicacionEliminar
 
 urlpatterns = [
     path('', views.home, name ='portal-home'),
@@ -12,9 +11,9 @@ urlpatterns = [
     path('crearusuario/',views.crearUsuario),
     path('reclamo_detail/',views.reclamo_detail),
     path('catalogo/',views.catalogo, name ='portal-catalogo'),
-    path('_publicacion/<int:pk>', PublicacionDetalle.as_view(), name = 'publicacion-detalle'),
-    path('publicacion/new', PublicacionCrear.as_view(), name = 'publicacion-crear'),
-    path('publicacion/<int:pk>/update/', PublicacionActualizar.as_view(), name = 'publicacion-actualizar'),
-    path('publicacion/<int:pk>/delete/', PublicacionEliminar.as_view(), name = 'publicacion-elminar'),     
+    path('agregar', views.agregarProducto, name='portal-agregar'),
+    path('editar/<int:id>', views.editarProducto),
+    path('eliminar/<int:id>', views.eliminarProducto),
+    path('listar', views.listarProductos)     
 ]
-
+#CRUD

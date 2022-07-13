@@ -1,16 +1,41 @@
-{% extends "portal/base.html" %} 
-{% block content %} 
-{% for i in posts %}
-    <article class="media content-section">
-    <div class="media-body">
-        <img src="{{i.ofertado_por.perfil.image.url}}" class = "rounded-circle account-img"alt="">
-        <div class="article-metadata">
-        <a class="mr-2" href="#">{{ i.ofertado_por }}</a>
-        <small class="text-muted">{{ i.fecha_publicacion }}</small>
-        </div>
-        <h2><a class="article-title" href="{% url 'publicacion-detalle' i.id%}">{{ i.producto }}</a></h2>
-        <p class="article-content">{{ i.descripcion }}</p>
-    </div>
-    </article>
-{% endfor %} 
-{% endblock content%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>producto</td>
+                <td>descripcion</td>
+                <td>ofertar</td>
+                <td>fecha_publicacion</td>
+                <td>usuario</td>
+                <td>Opciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pro in productos %}      
+            <tr>
+                <td>{{pro.id}}</td>
+                <td>{{pro.producto}}</td>
+                <td>{{pro.descripcion}}</td>
+                <td>{{pro.ofertar}}</td>
+                <td>
+                    <{{pro.fecha_publicacion}} /td>
+                <td>{{pro.usuario}}</td>
+                <td><a href="/portal/eliminar/{{pro.id}}">eliminar</a> | <a href="/portal/editar/{{pro.id}}" 
+                    >editar</a> | <a href="">ofertar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
